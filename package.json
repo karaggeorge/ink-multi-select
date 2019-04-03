@@ -3,7 +3,7 @@
 	"version": "1.0.1",
 	"description": "Multi select input component for Ink",
 	"license": "MIT",
-	"repository": "karaggeorge/ink-select-input",
+	"repository": "karaggeorge/ink-multi-select",
 	"author": {
 		"name": "George Karagkiaouris",
 		"email": "gkaragkiaouris2@gmail.com",
@@ -28,7 +28,8 @@
 		"ink",
 		"ink-component",
 		"select",
-		"multi-select"
+		"multi-select",
+		"checkbox"
 	],
 	"dependencies": {
 		"arr-rotate": "^1.0.0",
