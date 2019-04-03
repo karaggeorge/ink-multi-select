@@ -7,7 +7,7 @@
 	"author": {
 		"name": "George Karagkiaouris",
 		"email": "gkaragkiaouris2@gmail.com",
-		"url": "github.com/karaggeorge"
+		"url": "https://github.com/karaggeorge"
 	},
 	"main": "build/index.js",
 	"engines": {
