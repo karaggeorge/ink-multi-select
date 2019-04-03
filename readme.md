@@ -1,12 +1,13 @@
-# ink-select-input [![Build Status](https://travis-ci.org/vadimdemedes/ink-select-input.svg?branch=master)](https://travis-ci.org/vadimdemedes/ink-select-input)
+# ink-select-input [![Build Status](https://travis-ci.org/karaggeorge/ink-multi-select.svg?branch=master)](https://travis-ci.org/karaggeorge/ink-multi-select)
 
-> Select input component for [Ink](https://github.com/vadimdemedes/ink)
+> Multi-Select input component for [Ink](https://github.com/vadimdemedes/ink)
 
+Based on [ink-select-input](https://github.com/vadimdemedes/ink-select-input)
 
 ## Install
 
 ```
-$ npm install ink-select-input
+$ npm install ink-multi-select
 ```
 
 
@@ -15,11 +16,11 @@ $ npm install ink-select-input
 ```jsx
 import React from 'react';
 import {render} from 'ink';
-import SelectInput from 'ink-select-input';
+import MultiSelect from 'ink-multi-select';
 
 const Demo = () => {
-	const handleSelect = item => {
-		// `item` = { label: 'First', value: 'first' }
+	const handleSubmit = items => {
+		// `items` = [{ label: 'First', value: 'first' }, { label: 'Third', value: 'third' }]
 	};
 
 	const items = [{
@@ -33,7 +34,7 @@ const Demo = () => {
 		value: 'third'
 	}];
 
-	return <SelectInput items={items} onSelect={handleSelect}/>
+	return <MultiSelect items={items} onSubmit={handleSubmit}/>
 };
 
 render(<Demo/>);
@@ -72,17 +73,35 @@ Type: `function`
 
 Function to call when user selects an item. Item object is passed to that function as an argument.
 
+### onUnselect
+
+Type: `function`
+
+Function to call when user unselects an item. Item object is passed to that function as an argument.
+
 ### onHighlight
 
 Type: `function`
 
 Function to call when user highlights an item. Item object is passed to that function as an argument.
 
+### onSubmit
+
+Type: `function`
+
+Function to call when user submits the selected list. Array of Item objects is passed to that function as an argument.
+
 ### indicatorComponent
 
 Type: `Component`
 
 Custom component to override the default indicator component.
+
+### checkboxComponent
+
+Type: `Component`
+
+Custom component to override the default check-box component.
 
 ### itemComponent
 
@@ -99,4 +118,4 @@ Number of items to display.
 
 ## License
 
-MIT © [Vadim Demedes](http://github.com/vadimdemedes)
+MIT © [George Karagkiaouris](http://github.com/karaggeorge)

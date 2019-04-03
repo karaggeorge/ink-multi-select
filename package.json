@@ -1,13 +1,13 @@
 {
-	"name": "ink-select-input",
-	"version": "3.1.0",
-	"description": "Select input component for Ink",
+	"name": "ink-multi-select",
+	"version": "1.0.0",
+	"description": "Multi select input component for Ink",
 	"license": "MIT",
-	"repository": "vadimdemedes/ink-select-input",
+	"repository": "karaggeorge/ink-select-input",
 	"author": {
-		"name": "Vadim Demedes",
-		"email": "vdemedes@gmail.com",
-		"url": "github.com/vadimdemedes"
+		"name": "George Karagkiaouris",
+		"email": "gkaragkiaouris2@gmail.com",
+		"url": "github.com/karaggeorge"
 	},
 	"main": "build/index.js",
 	"engines": {
@@ -26,7 +26,9 @@
 	],
 	"keywords": [
 		"ink",
-		"ink-component"
+		"ink-component",
+		"select",
+		"multi-select"
 	],
 	"dependencies": {
 		"arr-rotate": "^1.0.0",
@@ -67,8 +69,7 @@
 		],
 		"rules": {
 			"react/no-unused-prop-types": 1,
-			"unicorn/no-hex-escape": 0,
-			"unicorn/filename-case": 0
+			"unicorn/no-hex-escape": 0
 		}
 	}
 }

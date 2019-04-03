@@ -4,7 +4,7 @@ import {render} from 'ink-testing-library';
 import {spy} from 'sinon';
 import figures from 'figures';
 import test from 'ava';
-import SelectInput, {Indicator, Item} from '.';
+import MultiSelect, {Indicator, Item, CheckBox} from '.';
 
 const ARROW_UP = '\u001B[A';
 const ARROW_DOWN = '\u001B[B';
@@ -20,9 +20,23 @@ test('indicator', t => {
 	t.is(lastFrame(), '  X');
 });
 
-test('indicator - selected', t => {
-	const actual = render(<Indicator isSelected/>);
+test('indicator - highlighted', t => {
+	const actual = render(<Indicator isHighlighted/>);
 	const expected = render(<Color blue>{figures.pointer}</Color>);
+
+	t.is(actual.lastFrame(), expected.lastFrame());
+});
+
+test('checkbox', t => {
+	const actual = render(<CheckBox/>);
+	const expected = render(<Color green>{figures.circle}</Color>);
+
+	t.is(actual.lastFrame(), expected.lastFrame());
+});
+
+test('checkbox - selected', t => {
+	const actual = render(<CheckBox isSelected/>);
+	const expected = render(<Color green>{figures.circleFilled}</Color>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
@@ -33,8 +47,8 @@ test('item', t => {
 	t.is(lastFrame(), 'Test');
 });
 
-test('item - selected', t => {
-	const actual = render(<Item isSelected label="Test"/>);
+test('item - highlighted', t => {
+	const actual = render(<Item isHighlighted label="Test"/>);
 	const expected = render(<Color blue>Test</Color>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
@@ -49,17 +63,19 @@ test('list', t => {
 		value: 'second'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="First"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 		</Box>
@@ -77,18 +93,20 @@ test('list - initial index', t => {
 		value: 'second'
 	}];
 
-	const actual = render(<SelectInput items={items} initialIndex={1}/>);
+	const actual = render(<MultiSelect items={items} initialIndex={1}/>);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="First"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Second"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Second"/>
 			</Box>
 		</Box>
 	));
@@ -104,13 +122,14 @@ test('list - custom indicator', t => {
 
 	const CustomIndicator = () => 'X ';
 
-	const actual = render(<SelectInput items={items} indicatorComponent={CustomIndicator}/>);
+	const actual = render(<MultiSelect items={items} indicatorComponent={CustomIndicator}/>);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
 				<CustomIndicator/>
-				<Item isSelected label="Test"/>
+				<CheckBox/>
+				<Item isHighlighted label="Test"/>
 			</Box>
 		</Box>
 	));
@@ -126,12 +145,13 @@ test('list - custom item', t => {
 
 	const CustomItem = ({label}) => `- ${label}`;
 
-	const actual = render(<SelectInput items={items} itemComponent={CustomItem}/>);
+	const actual = render(<MultiSelect items={items} itemComponent={CustomItem}/>);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
 				<CustomItem label="Test"/>
 			</Box>
 		</Box>
@@ -149,18 +169,20 @@ test('list - ignore input if not focused', t => {
 		value: 'second'
 	}];
 
-	const actual = render(<SelectInput focus={false} items={items}/>);
+	const actual = render(<MultiSelect focus={false} items={items}/>);
 	actual.stdin.write(ARROW_DOWN);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="First"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 		</Box>
@@ -181,24 +203,27 @@ test('list - move up with up arrow key', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 	actual.stdin.write(ARROW_UP);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Third"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Third"/>
 			</Box>
 		</Box>
 	));
@@ -218,24 +243,27 @@ test('list - move up with K key', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 	actual.stdin.write('k');
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Third"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Third"/>
 			</Box>
 		</Box>
 	));
@@ -255,23 +283,26 @@ test('list - move down with arrow down key', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 	actual.stdin.write(ARROW_DOWN);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="First"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Second"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Second"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Third"/>
 			</Box>
 		</Box>
@@ -292,23 +323,26 @@ test('list - move down with J key', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 	actual.stdin.write('j');
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="First"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Second"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Second"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Third"/>
 			</Box>
 		</Box>
@@ -329,7 +363,7 @@ test('list - move to the beginning of the list after reaching the end', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 	actual.stdin.write(ARROW_DOWN);
 	actual.stdin.write(ARROW_DOWN);
 	actual.stdin.write(ARROW_DOWN);
@@ -337,17 +371,20 @@ test('list - move to the beginning of the list after reaching the end', t => {
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="First"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Third"/>
 			</Box>
 		</Box>
@@ -365,7 +402,7 @@ test('list - reset selection when new items are received', t => {
 		value: 'second'
 	}];
 
-	const actual = render(<SelectInput items={items}/>);
+	const actual = render(<MultiSelect items={items}/>);
 	actual.stdin.write(ARROW_DOWN);
 
 	const newItems = [{
@@ -376,17 +413,19 @@ test('list - reset selection when new items are received', t => {
 		value: 'fourth'
 	}];
 
-	actual.rerender(<SelectInput items={newItems}/>);
+	actual.rerender(<MultiSelect items={newItems}/>);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Third"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Third"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Fourth"/>
 			</Box>
 		</Box>
@@ -407,17 +446,19 @@ test('list - item limit', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items} limit={2}/>);
+	const actual = render(<MultiSelect items={items} limit={2}/>);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="First"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 		</Box>
@@ -432,12 +473,14 @@ test('list - item limit', t => {
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Third"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Third"/>
 			</Box>
 		</Box>
 	));
@@ -454,14 +497,80 @@ test('list - handle enter', t => {
 		value: 'second'
 	}];
 
-	const onSelect = spy();
-	const {stdin} = render(<SelectInput items={items} onSelect={onSelect}/>);
+	const onSubmit = spy();
+	const {stdin} = render(<MultiSelect items={items} onSubmit={onSubmit}/>);
 
 	stdin.write(ARROW_DOWN);
+	stdin.write(' ');
 	stdin.write(ENTER);
 
-	t.true(onSelect.calledOnce);
+	t.true(onSubmit.calledOnce);
+	t.deepEqual(onSubmit.firstCall.args[0], [items[1]]);
+});
+
+test('list - handle enter multiple', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const onSubmit = spy();
+	const {stdin} = render(<MultiSelect items={items} onSubmit={onSubmit}/>);
+
+	stdin.write(' ');
+	stdin.write(ARROW_DOWN);
+	stdin.write(' ');
+	stdin.write(ENTER);
+
+	t.true(onSubmit.calledOnce);
+	t.deepEqual(onSubmit.firstCall.args[0], items);
+});
+
+test('list - handle select', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const onSelect = spy();
+	const {stdin} = render(<MultiSelect items={items} onSelect={onSelect}/>);
+
+	stdin.write(ARROW_DOWN);
+	stdin.write(' ');
+	stdin.write(ARROW_UP);
+	stdin.write(' ');
+
+	t.true(onSelect.calledTwice);
 	t.deepEqual(onSelect.firstCall.args[0], items[1]);
+	t.deepEqual(onSelect.secondCall.args[0], items[0]);
+});
+
+test('list - handle unselect', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const onUnselect = spy();
+	const {stdin} = render(<MultiSelect items={items} onUnselect={onUnselect}/>);
+
+	stdin.write(ARROW_DOWN);
+	stdin.write(' ');
+	stdin.write(ARROW_UP);
+	stdin.write(ARROW_DOWN);
+	stdin.write(' ');
+
+	t.true(onUnselect.calledOnce);
+	t.deepEqual(onUnselect.firstCall.args[0], items[1]);
 });
 
 test('list - don\'t rotate when there are less items than limit', t => {
@@ -473,19 +582,21 @@ test('list - don\'t rotate when there are less items than limit', t => {
 		value: 'second'
 	}];
 
-	const actual = render(<SelectInput items={items} limit={4}/>);
+	const actual = render(<MultiSelect items={items} limit={4}/>);
 	actual.stdin.write(ARROW_DOWN);
 	actual.stdin.write(ARROW_DOWN);
 
 	const expected = render((
 		<Box flexDirection="column">
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="First"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="First"/>
 			</Box>
 
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 		</Box>
@@ -506,7 +617,7 @@ test('list - rotate when there are more items than limit', t => {
 		value: 'third'
 	}];
 
-	const actual = render(<SelectInput items={items} limit={2}/>);
+	const actual = render(<MultiSelect items={items} limit={2}/>);
 	actual.stdin.write(ARROW_DOWN);
 	actual.stdin.write(ARROW_DOWN);
 
@@ -514,12 +625,14 @@ test('list - rotate when there are more items than limit', t => {
 		<Box flexDirection="column">
 			<Box>
 				<Indicator/>
+				<CheckBox/>
 				<Item label="Second"/>
 			</Box>
 
 			<Box>
-				<Indicator isSelected/>
-				<Item isSelected label="Third"/>
+				<Indicator isHighlighted/>
+				<CheckBox/>
+				<Item isHighlighted label="Third"/>
 			</Box>
 		</Box>
 	));
@@ -540,7 +653,7 @@ test('list - onHighlight', t => {
 	}];
 
 	const onHighlight = spy();
-	const {stdin} = render(<SelectInput items={items} limit={2} onHighlight={onHighlight}/>);
+	const {stdin} = render(<MultiSelect items={items} limit={2} onHighlight={onHighlight}/>);
 
 	stdin.write(ARROW_DOWN);
 	stdin.write(ARROW_DOWN);

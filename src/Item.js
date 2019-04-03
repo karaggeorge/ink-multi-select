@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Color} from 'ink';
 
-const Item = ({isSelected, label}) => (
-	<Color blue={isSelected}>
+const Item = ({isHighlighted, label}) => (
+	<Color blue={isHighlighted}>
 		{label}
 	</Color>
 );
 
 Item.propTypes = {
-	isSelected: PropTypes.bool,
+	isHighlighted: PropTypes.bool,
 	label: PropTypes.string.isRequired
 };
 
 Item.defaultProps = {
-	isSelected: false
+	isHighlighted: false
 };
 
 export default Item;

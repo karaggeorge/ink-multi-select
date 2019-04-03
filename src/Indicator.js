@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {Box, Color} from 'ink';
 import figures from 'figures';
 
-const Indicator = ({isSelected}) => (
+const Indicator = ({isHighlighted}) => (
 	<Box marginRight={1}>
-		{isSelected ? (
+		{isHighlighted ? (
 			<Color blue>
 				{figures.pointer}
 			</Color>
@@ -14,11 +14,11 @@ const Indicator = ({isSelected}) => (
 );
 
 Indicator.propTypes = {
-	isSelected: PropTypes.bool
+	isHighlighted: PropTypes.bool
 };
 
 Indicator.defaultProps = {
-	isSelected: false
+	isHighlighted: false
 };
 
 export default Indicator;

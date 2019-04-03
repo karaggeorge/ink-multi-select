@@ -3,22 +3,27 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import arrRotate from 'arr-rotate';
 import {Box, StdinContext} from 'ink';
-import Indicator from './Indicator';
-import Item from './Item';
+import Indicator from './indicator';
+import Item from './item';
+import CheckBox from './checkbox';
 
 const ARROW_UP = '\u001B[A';
 const ARROW_DOWN = '\u001B[B';
 const ENTER = '\r';
+const SPACE = ' ';
 
-class SelectInput extends PureComponent {
+class MultiSelect extends PureComponent {
 	static propTypes = {
 		items: PropTypes.array,
 		focus: PropTypes.bool,
 		initialIndex: PropTypes.number,
 		indicatorComponent: PropTypes.func,
+		checkboxComponent: PropTypes.func,
 		itemComponent: PropTypes.func,
 		limit: PropTypes.number,
 		onSelect: PropTypes.func,
+		onUnselect: PropTypes.func,
+		onSubmit: PropTypes.func,
 		onHighlight: PropTypes.func
 	}
 
@@ -27,33 +32,40 @@ class SelectInput extends PureComponent {
 		focus: true,
 		initialIndex: 0,
 		indicatorComponent: Indicator,
+		checkboxComponent: CheckBox,
 		itemComponent: Item,
 		limit: null,
 		onSelect() {},
+		onUnselect() {},
+		onSubmit() {},
 		onHighlight() {}
 	}
 
 	state = {
 		rotateIndex: 0,
-		selectedIndex: this.props.initialIndex
+		highlightedIndex: this.props.initialIndex,
+		selected: {}
 	}
 
 	render() {
-		const {items, indicatorComponent, itemComponent} = this.props;
-		const {rotateIndex, selectedIndex} = this.state;
-		const limit = this.getLimit();
+		const {items, indicatorComponent, itemComponent, checkboxComponent} = this.props;
+		const {rotateIndex, highlightedIndex, selected} = this.state;
+		const {limit, hasLimit} = this;
 
-		const slicedItems = this.hasLimit() ? arrRotate(items, rotateIndex).slice(0, limit) : items;
+		const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
 
 		return (
 			<Box flexDirection="column">
 				{slicedItems.map((item, index) => {
-					const isSelected = index === selectedIndex;
+					const key = item.key || item.value;
+					const isHighlighted = index === highlightedIndex;
+					const isSelected = Boolean(selected[key]);
 
 					return (
-						<Box key={item.key || item.value}>
-							{React.createElement(indicatorComponent, {isSelected})}
-							{React.createElement(itemComponent, {...item, isSelected})}
+						<Box key={key}>
+							{React.createElement(indicatorComponent, {isHighlighted})}
+							{React.createElement(checkboxComponent, {isSelected})}
+							{React.createElement(itemComponent, {...item, isHighlighted})}
 						</Box>
 					);
 				})}
@@ -79,16 +91,15 @@ class SelectInput extends PureComponent {
 		if (!isEqual(prevProps.items, this.props.items)) {
 			this.setState({ // eslint-disable-line react/no-did-update-set-state
 				rotateIndex: 0,
-				selectedIndex: 0
+				highlightedIndex: 0
 			});
 		}
 	}
 
 	handleInput = data => {
-		const {items, focus, onSelect, onHighlight} = this.props;
-		const {rotateIndex, selectedIndex} = this.state;
-		const hasLimit = this.hasLimit();
-		const limit = this.getLimit();
+		const {items, focus, onSelect, onUnselect, onHighlight, onSubmit} = this.props;
+		const {rotateIndex, highlightedIndex, selected} = this.state;
+		const {limit, hasLimit} = this;
 
 		if (focus === false) {
 			return;
@@ -98,51 +109,62 @@ class SelectInput extends PureComponent {
 
 		if (s === ARROW_UP || s === 'k') {
 			const lastIndex = (hasLimit ? limit : items.length) - 1;
-			const atFirstIndex = selectedIndex === 0;
-			const nextIndex = (hasLimit ? selectedIndex : lastIndex);
+			const atFirstIndex = highlightedIndex === 0;
+			const nextIndex = (hasLimit ? highlightedIndex : lastIndex);
 			const nextRotateIndex = atFirstIndex ? rotateIndex + 1 : rotateIndex;
-			const nextSelectedIndex = atFirstIndex ? nextIndex : selectedIndex - 1;
+			const nextHighlightedIndex = atFirstIndex ? nextIndex : highlightedIndex - 1;
 
 			this.setState({
 				rotateIndex: nextRotateIndex,
-				selectedIndex: nextSelectedIndex
+				highlightedIndex: nextHighlightedIndex
 			});
 
 			const slicedItems = hasLimit ? arrRotate(items, nextRotateIndex).slice(0, limit) : items;
-			onHighlight(slicedItems[nextSelectedIndex]);
+			onHighlight(slicedItems[nextHighlightedIndex]);
 		}
 
 		if (s === ARROW_DOWN || s === 'j') {
-			const atLastIndex = selectedIndex === (hasLimit ? limit : items.length) - 1;
-			const nextIndex = (hasLimit ? selectedIndex : 0);
+			const atLastIndex = highlightedIndex === (hasLimit ? limit : items.length) - 1;
+			const nextIndex = (hasLimit ? highlightedIndex : 0);
 			const nextRotateIndex = atLastIndex ? rotateIndex - 1 : rotateIndex;
-			const nextSelectedIndex = atLastIndex ? nextIndex : selectedIndex + 1;
+			const nextHighlightedIndex = atLastIndex ? nextIndex : highlightedIndex + 1;
 
 			this.setState({
 				rotateIndex: nextRotateIndex,
-				selectedIndex: nextSelectedIndex
+				highlightedIndex: nextHighlightedIndex
 			});
 
 			const slicedItems = hasLimit ? arrRotate(items, nextRotateIndex).slice(0, limit) : items;
-			onHighlight(slicedItems[nextSelectedIndex]);
+			onHighlight(slicedItems[nextHighlightedIndex]);
+		}
+
+		if (s === SPACE) {
+			const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
+			const selectedItem = slicedItems[highlightedIndex];
+			const selectedItemKey = selectedItem.key || selectedItem.value;
+
+			(selected[selectedItemKey] ? onUnselect : onSelect)(selectedItem);
+
+			this.setState(state => ({
+				selected: {...selected, [selectedItemKey]: !state.selected[selectedItemKey]}
+			}));
 		}
 
 		if (s === ENTER) {
-			const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
-			onSelect(slicedItems[selectedIndex]);
+			onSubmit(items.filter(item => selected[item.key || item.value]));
 		}
 	}
 
-	hasLimit = () => {
+	get hasLimit() {
 		const {limit, items} = this.props;
 
 		return typeof limit === 'number' && items.length > limit;
 	}
 
-	getLimit = () => {
+	get limit() {
 		const {limit, items} = this.props;
 
-		if (this.hasLimit()) {
+		if (this.hasLimit) {
 			return Math.min(limit, items.length);
 		}
 
@@ -150,16 +172,16 @@ class SelectInput extends PureComponent {
 	}
 }
 
-export default class SelectInputWithStdin extends PureComponent {
+export default class MultiSelectWithStdin extends PureComponent {
 	render() {
 		return (
 			<StdinContext.Consumer>
 				{({stdin, setRawMode}) => (
-					<SelectInput {...this.props} stdin={stdin} setRawMode={setRawMode}/>
+					<MultiSelect {...this.props} stdin={stdin} setRawMode={setRawMode}/>
 				)}
 			</StdinContext.Consumer>
 		);
 	}
 }
 
-export {Indicator, Item};
+export {Indicator, Item, CheckBox};

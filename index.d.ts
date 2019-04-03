@@ -3,13 +3,18 @@ import * as React from 'react';
 /**
  * Props for custom indicator component.
  */
-export type IndicatorProps = { isSelected?: boolean };
+export type IndicatorProps = { isHighlighted?: boolean };
+
+/**
+ * Props for custom check box component.
+ */
+export type CheckBoxProps = { isSelected?: boolean };
 
 /**
  * Props for custom item component.
  */
 export type ItemProps = {
-	isSelected?: boolean;
+	isHighlighted?: boolean;
 	label: string
 };
 
@@ -22,7 +27,7 @@ export type Item = {
 	key?: React.Key;
 };
 
-export type InkSelectInputProps = {
+export type MultiSelectProps = {
 	/**
 	 * Items to display in a list. Each item must be an object and have `label` and `value` props,
 	 * it may also optionally have a `key` prop.
@@ -48,9 +53,26 @@ export type InkSelectInputProps = {
 	onSelect?: (item: Item) => void;
 
 	/**
+	 * Function to call when user unselects an item.
+	 * Item object is passed to that function as an argument.
+	 */
+	onUnselect?: (item: Item) => void;
+
+	/**
+	 * Function to call when user submits selected items.
+	 * Selected Item list is passed to that function as an argument.
+	 */
+	onSubmit?: (item: Item[]) => void;
+
+	/**
 	 * Custom component to override the default indicator component.
 	 */
 	indicatorComponent?: React.ComponentType<IndicatorProps>;
+
+	/**
+	 * Custom component to override the default check box component.
+	 */
+	checkboxComponent?: React.ComponentType<CheckBoxProps>;
 
 	/**
 	 * Custom component to override the default item component.
@@ -64,6 +86,6 @@ export type InkSelectInputProps = {
 };
 
 /**
- * Select input component for Ink
+ * Multi Select input component for Ink
  */
-export default class InkSelectInput extends React.Component<InkSelectInputProps> {}
+export default class MultiSelect extends React.Component<MultiSelectProps> {}

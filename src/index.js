@@ -1,1 +1,1 @@
-export {default, Item, Indicator} from './SelectInput';
+export {default, Item, Indicator, CheckBox} from './multi-select';
