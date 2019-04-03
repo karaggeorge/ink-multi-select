@@ -1,4 +1,4 @@
-# ink-select-input [![Build Status](https://travis-ci.org/karaggeorge/ink-multi-select.svg?branch=master)](https://travis-ci.org/karaggeorge/ink-multi-select)
+# ink-multi-select [![Build Status](https://travis-ci.org/karaggeorge/ink-multi-select.svg?branch=master)](https://travis-ci.org/karaggeorge/ink-multi-select)
 
 > Multi-Select input component for [Ink](https://github.com/vadimdemedes/ink)
 

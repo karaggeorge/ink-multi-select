@@ -1,6 +1,6 @@
 {
 	"name": "ink-multi-select",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Multi select input component for Ink",
 	"license": "MIT",
 	"repository": "karaggeorge/ink-select-input",
