@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 /**
  * Props for custom indicator component.
@@ -15,7 +15,7 @@ export type CheckBoxProps = { isSelected?: boolean };
  */
 export type ItemProps = {
 	isHighlighted?: boolean;
-	label: string
+	label: string;
 };
 
 /**
@@ -83,6 +83,11 @@ export type MultiSelectProps = {
 	 * Number of items to display.
 	 */
 	limit?: number;
+
+	/**
+	 * Selected values to be considered during initialization.
+	 */
+	selectedValues?: string[];
 };
 
 /**
