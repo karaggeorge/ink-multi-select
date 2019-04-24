@@ -21,6 +21,7 @@ class MultiSelect extends PureComponent {
 		checkboxComponent: PropTypes.func,
 		itemComponent: PropTypes.func,
 		limit: PropTypes.number,
+		selectedValues: PropTypes.array,
 		onSelect: PropTypes.func,
 		onUnselect: PropTypes.func,
 		onSubmit: PropTypes.func,
@@ -35,10 +36,36 @@ class MultiSelect extends PureComponent {
 		checkboxComponent: CheckBox,
 		itemComponent: Item,
 		limit: null,
+		selectedValues: [],
 		onSelect() {},
 		onUnselect() {},
 		onSubmit() {},
 		onHighlight() {}
+	}
+
+	static getDerivedStateFromProps(props, state) {
+		if (props.selectedValues.length === 0) {
+			return null;
+		}
+
+		let areEqual = true;
+
+		for (const key of props.selectedValues) {
+			if (!state.selected[key]) {
+				areEqual = false;
+				break;
+			}
+		}
+
+		if (!areEqual) {
+			const selected = props.selectedValues.reduce(
+				(acc, key) => ({...acc, [key]: true}),
+				{}
+			);
+			return {selected};
+		}
+
+		return null;
 	}
 
 	state = {
