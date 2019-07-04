@@ -138,7 +138,7 @@ class MultiSelect extends PureComponent {
 			onHighlight(slicedItems[nextHighlightedIndex]);
 		}
 
-		if (s === SPACE) {
+		if (s === SPACE || s === 'x') {
 			const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
 			const selectedItem = slicedItems[highlightedIndex];
 			const selectedItemKey = selectedItem.key || selectedItem.value;
