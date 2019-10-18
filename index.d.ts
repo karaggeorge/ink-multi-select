@@ -36,6 +36,12 @@ export type MultiSelectProps = {
 	items?: Item[];
 
 	/**
+	 * Seed the selected items; using the following format:
+	 * { first: true, second: true }
+	 */
+	selected?: object;
+
+	/**
 	 * Listen to user's input. Useful in case there are multiple input components
 	 * at the same time and input must be "routed" to a specific component.
 	 */

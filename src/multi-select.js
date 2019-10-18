@@ -15,6 +15,7 @@ const SPACE = ' ';
 class MultiSelect extends PureComponent {
 	static propTypes = {
 		items: PropTypes.array,
+		selected: PropTypes.object,
 		focus: PropTypes.bool,
 		initialIndex: PropTypes.number,
 		indicatorComponent: PropTypes.func,
@@ -29,6 +30,7 @@ class MultiSelect extends PureComponent {
 
 	static defaultProps = {
 		items: [],
+		selected: {},
 		focus: true,
 		initialIndex: 0,
 		indicatorComponent: Indicator,
@@ -44,7 +46,7 @@ class MultiSelect extends PureComponent {
 	state = {
 		rotateIndex: 0,
 		highlightedIndex: this.props.initialIndex,
-		selected: {}
+		selected: this.props.selected
 	}
 
 	render() {
