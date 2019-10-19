@@ -15,7 +15,7 @@ const SPACE = ' ';
 class MultiSelect extends PureComponent {
 	static propTypes = {
 		items: PropTypes.array,
-		selected: PropTypes.object,
+		defaultSelected: PropTypes.array,
 		focus: PropTypes.bool,
 		initialIndex: PropTypes.number,
 		indicatorComponent: PropTypes.func,
@@ -30,7 +30,7 @@ class MultiSelect extends PureComponent {
 
 	static defaultProps = {
 		items: [],
-		selected: {},
+		defaultSelected: [],
 		focus: true,
 		initialIndex: 0,
 		indicatorComponent: Indicator,
@@ -46,12 +46,12 @@ class MultiSelect extends PureComponent {
 	state = {
 		rotateIndex: 0,
 		highlightedIndex: this.props.initialIndex,
-		selected: this.props.selected
+		selected: this.props.defaultSelected
 	}
 
 	render() {
 		const {items, indicatorComponent, itemComponent, checkboxComponent} = this.props;
-		const {rotateIndex, highlightedIndex, selected} = this.state;
+		const {rotateIndex, highlightedIndex} = this.state;
 		const {limit, hasLimit} = this;
 
 		const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
@@ -61,7 +61,7 @@ class MultiSelect extends PureComponent {
 				{slicedItems.map((item, index) => {
 					const key = item.key || item.value;
 					const isHighlighted = index === highlightedIndex;
-					const isSelected = Boolean(selected[key]);
+					const isSelected = this.isSelected(item.value);
 
 					return (
 						<Box key={key}>
@@ -96,6 +96,34 @@ class MultiSelect extends PureComponent {
 				highlightedIndex: 0
 			});
 		}
+	}
+
+	isSelected(value) {
+		const {selected} = this.state;
+
+		return selected.map(({value}) => value).includes(
+			value
+		);
+	}
+
+	selectItem(item) {
+		const {onSelect, onUnselect} = this.props;
+		const {selected} = this.state;
+
+		if (this.isSelected(item.value)) {
+			onUnselect(item);
+
+			return selected.filter(({value}) => {
+				return value !== item.value;
+			});
+		}
+
+		onSelect(item);
+		return selected.concat([item]);
+	}
+
+	setSelectedState(selected) {
+		this.setState({selected});
 	}
 
 	handleInput = data => {
@@ -143,13 +171,10 @@ class MultiSelect extends PureComponent {
 		if (s === SPACE) {
 			const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
 			const selectedItem = slicedItems[highlightedIndex];
-			const selectedItemKey = selectedItem.key || selectedItem.value;
 
-			(selected[selectedItemKey] ? onUnselect : onSelect)(selectedItem);
-
-			this.setState(state => ({
-				selected: {...selected, [selectedItemKey]: !state.selected[selectedItemKey]}
-			}));
+			this.setSelectedState(
+				this.selectItem(selectedItem)
+			);
 		}
 
 		if (s === ENTER) {
