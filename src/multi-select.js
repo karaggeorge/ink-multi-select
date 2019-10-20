@@ -178,7 +178,7 @@ class MultiSelect extends PureComponent {
 		}
 
 		if (s === ENTER) {
-			onSubmit(items.filter(item => selected[item.key || item.value]));
+			onSubmit(selected);
 		}
 	}
 
