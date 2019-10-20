@@ -96,6 +96,12 @@ class MultiSelect extends PureComponent {
 				highlightedIndex: 0
 			});
 		}
+
+		if (!isEqual(prevProps.defaultSelected, this.props.defaultSelected)) {
+			this.setState({ // eslint-disable-line react/no-did-update-set-state
+				selected: prevProps.defaultSelected
+			});
+		}
 	}
 
 	isSelected(value) {
