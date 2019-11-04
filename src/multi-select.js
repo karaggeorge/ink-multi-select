@@ -125,7 +125,7 @@ class MultiSelect extends PureComponent {
 		}
 
 		onSelect(item);
-		return selected.concat([item]);
+		return [...selected, item];
 	}
 
 	setSelectedState(selected) {
