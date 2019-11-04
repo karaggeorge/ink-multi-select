@@ -133,7 +133,7 @@ class MultiSelect extends PureComponent {
 	}
 
 	handleInput = data => {
-		const {items, focus, onSelect, onUnselect, onHighlight, onSubmit} = this.props;
+		const {items, focus, onHighlight, onSubmit} = this.props;
 		const {rotateIndex, highlightedIndex, selected} = this.state;
 		const {limit, hasLimit} = this;
 
