@@ -15,6 +15,7 @@ const SPACE = ' ';
 class MultiSelect extends PureComponent {
 	static propTypes = {
 		items: PropTypes.array,
+		selected: PropTypes.array,
 		defaultSelected: PropTypes.array,
 		focus: PropTypes.bool,
 		initialIndex: PropTypes.number,
@@ -30,6 +31,7 @@ class MultiSelect extends PureComponent {
 
 	static defaultProps = {
 		items: [],
+		selected: [],
 		defaultSelected: [],
 		focus: true,
 		initialIndex: 0,
@@ -46,7 +48,7 @@ class MultiSelect extends PureComponent {
 	state = {
 		rotateIndex: 0,
 		highlightedIndex: this.props.initialIndex,
-		selected: this.props.defaultSelected
+		selected: this.props.selected.length === 0 ? this.props.defaultSelected : this.props.selected
 	}
 
 	render() {
@@ -97,9 +99,9 @@ class MultiSelect extends PureComponent {
 			});
 		}
 
-		if (!isEqual(prevProps.defaultSelected, this.props.defaultSelected)) {
+		if (!isEqual(prevProps.selected, this.props.selected)) {
 			this.setState({ // eslint-disable-line react/no-did-update-set-state
-				selected: prevProps.defaultSelected
+				selected: prevProps.selected
 			});
 		}
 	}

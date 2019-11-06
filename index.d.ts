@@ -42,7 +42,12 @@ export type MultiSelectProps = {
 	items?: Item[];
 
 	/**
-	 * Seed the selected items list.
+	 * Items set as selected.
+	 */
+	selected?: SelectedItem[];
+
+	/**
+	 * Items set as selected by default.
 	 */
 	defaultSelected?: SelectedItem[];
 
