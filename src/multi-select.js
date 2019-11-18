@@ -208,13 +208,11 @@ class MultiSelect extends PureComponent {
 }
 
 export default class MultiSelectWithStdin extends PureComponent {
-	multiSelectRef = React.createRef()
-
 	render() {
 		return (
 			<StdinContext.Consumer>
 				{({stdin, setRawMode}) => (
-					<MultiSelect ref={this.multiSelectRef} {...this.props} stdin={stdin} setRawMode={setRawMode}/>
+					<MultiSelect {...this.props} stdin={stdin} setRawMode={setRawMode}/>
 				)}
 			</StdinContext.Consumer>
 		);
