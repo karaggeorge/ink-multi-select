@@ -529,6 +529,28 @@ test('list - handle enter multiple', t => {
 	t.deepEqual(onSubmit.firstCall.args[0], items);
 });
 
+test('list - seed default selected items', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const defaultSelected = [{
+		value: 'second'
+	}];
+
+	const onSubmit = spy();
+	const {stdin} = render(<MultiSelect defaultSelected={defaultSelected} items={items} onSubmit={onSubmit}/>);
+
+	stdin.write(ENTER);
+
+	t.true(onSubmit.calledOnce);
+	t.deepEqual(onSubmit.firstCall.args[0], defaultSelected);
+});
+
 test('list - handle select', t => {
 	const items = [{
 		label: 'First',

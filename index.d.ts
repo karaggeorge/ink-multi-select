@@ -27,6 +27,12 @@ export type Item = {
 	key?: React.Key;
 };
 
+export type SelectedItem = {
+	label?: string;
+	value: React.Key
+	key?: React.Key;
+}
+
 export type MultiSelectProps = {
 	/**
 	 * Items to display in a list. Each item must be an object and have `label` and `value` props,
@@ -34,6 +40,16 @@ export type MultiSelectProps = {
 	 * If no `key` prop is provided, `value` will be used as the item key.
 	 */
 	items?: Item[];
+
+	/**
+	 * Items set as selected.
+	 */
+	selected?: SelectedItem[];
+
+	/**
+	 * Items set as selected by default.
+	 */
+	defaultSelected?: SelectedItem[];
 
 	/**
 	 * Listen to user's input. Useful in case there are multiple input components
