@@ -70,7 +70,8 @@
 		],
 		"rules": {
 			"react/no-unused-prop-types": 1,
-			"unicorn/no-hex-escape": 0
+			"unicorn/no-hex-escape": 0,
+			"eslint-comments/no-unused-disable": 0
 		}
 	}
 }

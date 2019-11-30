@@ -26,7 +26,9 @@ class MultiSelect extends PureComponent {
 		onSelect: PropTypes.func,
 		onUnselect: PropTypes.func,
 		onSubmit: PropTypes.func,
-		onHighlight: PropTypes.func
+		onHighlight: PropTypes.func,
+		stdin: PropTypes.any.isRequired,
+		setRawMode: PropTypes.func.isRequired
 	}
 
 	static defaultProps = {
