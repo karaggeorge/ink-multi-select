@@ -33,7 +33,7 @@ class MultiSelect extends PureComponent {
 
 	static defaultProps = {
 		items: [],
-		selected: [],
+		selected: undefined,
 		defaultSelected: [],
 		focus: true,
 		initialIndex: 0,
@@ -50,7 +50,7 @@ class MultiSelect extends PureComponent {
 	state = {
 		rotateIndex: 0,
 		highlightedIndex: this.props.initialIndex,
-		selected: this.props.selected.length === 0 ? this.props.defaultSelected : this.props.selected
+		selected: this.props.selected || this.props.defaultSelected
 	}
 
 	render() {
@@ -100,16 +100,10 @@ class MultiSelect extends PureComponent {
 				highlightedIndex: 0
 			});
 		}
-
-		if (!isEqual(prevProps.selected, this.props.selected)) {
-			this.setState({ // eslint-disable-line react/no-did-update-set-state
-				selected: prevProps.selected
-			});
-		}
 	}
 
 	isSelected(value) {
-		const {selected} = this.state;
+		const selected = this.props.selected || this.state.selected;
 
 		return selected.map(({value}) => value).includes(
 			value
@@ -118,7 +112,7 @@ class MultiSelect extends PureComponent {
 
 	selectItem(item) {
 		const {onSelect, onUnselect} = this.props;
-		const {selected} = this.state;
+		const selected = this.props.selected || this.state.selected;
 
 		if (this.isSelected(item.value)) {
 			onUnselect(item);
