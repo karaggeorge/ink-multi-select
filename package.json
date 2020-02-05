@@ -38,6 +38,7 @@
 		"prop-types": "^15.5.10"
 	},
 	"devDependencies": {
+		"@ava/babel-preset-stage-4": "^4.0.0",
 		"@babel/cli": "^7.2.3",
 		"@babel/core": "^7.3.3",
 		"@babel/plugin-proposal-class-properties": "^7.3.3",
@@ -70,7 +71,8 @@
 		],
 		"rules": {
 			"react/no-unused-prop-types": 1,
-			"unicorn/no-hex-escape": 0
+			"unicorn/no-hex-escape": 0,
+			"eslint-comments/no-unused-disable": 0
 		}
 	}
 }

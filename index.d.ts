@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 /**
  * Props for custom indicator component.
@@ -15,13 +15,13 @@ export type CheckBoxProps = { isSelected?: boolean };
  */
 export type ItemProps = {
 	isHighlighted?: boolean;
-	label: string
+	label: string;
 };
 
 /**
  * Select item definition.
  */
-export type Item = {
+export type ListedItem = {
 	label: string;
 	value: React.Key;
 	key?: React.Key;
@@ -29,9 +29,24 @@ export type Item = {
 
 export type SelectedItem = {
 	label?: string;
-	value: React.Key
+	value: React.Key;
 	key?: React.Key;
-}
+};
+
+/**
+ * Default indicator component.
+ */
+export class Indicator extends React.Component<IndicatorProps> {}
+
+/**
+ * Default check box component.
+ */
+export class CheckBox extends React.Component<CheckBoxProps> {}
+
+/**
+ * Default item component.
+ */
+export class Item extends React.Component<ItemProps> {}
 
 export type MultiSelectProps = {
 	/**
@@ -39,7 +54,7 @@ export type MultiSelectProps = {
 	 * it may also optionally have a `key` prop.
 	 * If no `key` prop is provided, `value` will be used as the item key.
 	 */
-	items?: Item[];
+	items?: ListedItem[];
 
 	/**
 	 * Items set as selected.
@@ -66,19 +81,19 @@ export type MultiSelectProps = {
 	 * Function to call when user selects an item.
 	 * Item object is passed to that function as an argument.
 	 */
-	onSelect?: (item: Item) => void;
+	onSelect?: (item: ListedItem) => void;
 
 	/**
 	 * Function to call when user unselects an item.
 	 * Item object is passed to that function as an argument.
 	 */
-	onUnselect?: (item: Item) => void;
+	onUnselect?: (item: ListedItem) => void;
 
 	/**
 	 * Function to call when user submits selected items.
 	 * Selected Item list is passed to that function as an argument.
 	 */
-	onSubmit?: (item: Item[]) => void;
+	onSubmit?: (item: ListedItem[]) => void;
 
 	/**
 	 * Custom component to override the default indicator component.

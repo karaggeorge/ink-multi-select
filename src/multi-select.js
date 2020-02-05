@@ -26,12 +26,14 @@ class MultiSelect extends PureComponent {
 		onSelect: PropTypes.func,
 		onUnselect: PropTypes.func,
 		onSubmit: PropTypes.func,
-		onHighlight: PropTypes.func
+		onHighlight: PropTypes.func,
+		stdin: PropTypes.any.isRequired,
+		setRawMode: PropTypes.func.isRequired
 	}
 
 	static defaultProps = {
 		items: [],
-		selected: [],
+		selected: undefined,
 		defaultSelected: [],
 		focus: true,
 		initialIndex: 0,
@@ -48,7 +50,7 @@ class MultiSelect extends PureComponent {
 	state = {
 		rotateIndex: 0,
 		highlightedIndex: this.props.initialIndex,
-		selected: this.props.selected.length === 0 ? this.props.defaultSelected : this.props.selected
+		selected: this.props.selected || this.props.defaultSelected
 	}
 
 	render() {
@@ -98,16 +100,10 @@ class MultiSelect extends PureComponent {
 				highlightedIndex: 0
 			});
 		}
-
-		if (!isEqual(prevProps.selected, this.props.selected)) {
-			this.setState({ // eslint-disable-line react/no-did-update-set-state
-				selected: prevProps.selected
-			});
-		}
 	}
 
 	isSelected(value) {
-		const {selected} = this.state;
+		const selected = this.props.selected || this.state.selected;
 
 		return selected.map(({value}) => value).includes(
 			value
@@ -116,7 +112,7 @@ class MultiSelect extends PureComponent {
 
 	selectItem(item) {
 		const {onSelect, onUnselect} = this.props;
-		const {selected} = this.state;
+		const selected = this.props.selected || this.state.selected;
 
 		if (this.isSelected(item.value)) {
 			onUnselect(item);
@@ -136,7 +132,8 @@ class MultiSelect extends PureComponent {
 
 	handleInput = data => {
 		const {items, focus, onHighlight, onSubmit} = this.props;
-		const {rotateIndex, highlightedIndex, selected} = this.state;
+		const {rotateIndex, highlightedIndex} = this.state;
+		const selected = this.props.selected || this.state.selected;
 		const {limit, hasLimit} = this;
 
 		if (focus === false) {
