@@ -46,7 +46,7 @@ class MultiSelect extends PureComponent {
 		onSelect() {},
 		onUnselect() {},
 		onSubmit() {},
-		onHighlight() {}
+		onHighlight() {},
 		selectOnKeys: [SPACE],
 		submitOnKeys: [ENTER],
 	}
