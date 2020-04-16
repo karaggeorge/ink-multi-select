@@ -27,6 +27,8 @@ class MultiSelect extends PureComponent {
 		onUnselect: PropTypes.func,
 		onSubmit: PropTypes.func,
 		onHighlight: PropTypes.func,
+		selectOnKeys: PropTypes.array,
+		submitOnKeys: PropTypes.array,
 		stdin: PropTypes.any.isRequired,
 		setRawMode: PropTypes.func.isRequired
 	}
@@ -45,6 +47,8 @@ class MultiSelect extends PureComponent {
 		onUnselect() {},
 		onSubmit() {},
 		onHighlight() {}
+		selectOnKeys: [SPACE],
+		submitOnKeys: [ENTER],
 	}
 
 	state = {
@@ -173,7 +177,7 @@ class MultiSelect extends PureComponent {
 			onHighlight(slicedItems[nextHighlightedIndex]);
 		}
 
-		if (s === SPACE) {
+		if (selectOnKeys.includes(s)) {
 			const slicedItems = hasLimit ? arrRotate(items, rotateIndex).slice(0, limit) : items;
 			const selectedItem = slicedItems[highlightedIndex];
 
@@ -182,7 +186,7 @@ class MultiSelect extends PureComponent {
 			);
 		}
 
-		if (s === ENTER) {
+		if (submitOnKeys.includes(s)) {
 			onSubmit(selected);
 		}
 	}
