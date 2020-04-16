@@ -529,6 +529,27 @@ test('list - handle enter multiple', t => {
 	t.deepEqual(onSubmit.firstCall.args[0], items);
 });
 
+test('list - handle enter multiple with props', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const onSubmit = spy();
+	const {stdin} = render(<MultiSelect items={items} onSubmit={onSubmit} submitOnKeys={['a']} />);
+
+	stdin.write(' ');
+	stdin.write(ARROW_DOWN);
+	stdin.write(' ');
+	stdin.write('a');
+
+	t.true(onSubmit.calledOnce);
+	t.deepEqual(onSubmit.firstCall.args[0], items);
+});
+
 test('list - seed default selected items', t => {
 	const items = [{
 		label: 'First',
@@ -573,6 +594,28 @@ test('list - handle select', t => {
 	t.deepEqual(onSelect.secondCall.args[0], items[0]);
 });
 
+test('list - handle select with keys provided by props', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const onSelect = spy();
+	const {stdin} = render(<MultiSelect items={items} onSelect={onSelect} selectOnKeys={['x', 'a']} />);
+
+	stdin.write(ARROW_DOWN);
+	stdin.write('x');
+	stdin.write(ARROW_UP);
+	stdin.write('a');
+
+	t.true(onSelect.calledTwice);
+	t.deepEqual(onSelect.firstCall.args[0], items[1]);
+	t.deepEqual(onSelect.secondCall.args[0], items[0]);
+});
+
 test('list - handle unselect', t => {
 	const items = [{
 		label: 'First',
@@ -590,6 +633,28 @@ test('list - handle unselect', t => {
 	stdin.write(ARROW_UP);
 	stdin.write(ARROW_DOWN);
 	stdin.write(' ');
+
+	t.true(onUnselect.calledOnce);
+	t.deepEqual(onUnselect.firstCall.args[0], items[1]);
+});
+
+test('list - handle unselect with keys provided by props', t => {
+	const items = [{
+		label: 'First',
+		value: 'first'
+	}, {
+		label: 'Second',
+		value: 'second'
+	}];
+
+	const onUnselect = spy();
+	const {stdin} = render(<MultiSelect items={items} onUnselect={onUnselect} selectOnKeys={['x', 'a']} />);
+
+	stdin.write(ARROW_DOWN);
+	stdin.write('x');
+	stdin.write(ARROW_UP);
+	stdin.write(ARROW_DOWN);
+	stdin.write('a');
 
 	t.true(onUnselect.calledOnce);
 	t.deepEqual(onUnselect.firstCall.args[0], items[1]);
