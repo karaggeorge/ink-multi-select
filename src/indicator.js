@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box, Color} from 'ink';
+import {Box, Text} from 'ink';
 import figures from 'figures';
 
 const Indicator = ({isHighlighted}) => (
 	<Box marginRight={1}>
-		{isHighlighted ? (
-			<Color blue>
-				{figures.pointer}
-			</Color>
-		) : ' '}
+		<Text color={isHighlighted ? 'blue' : undefined}>
+			{isHighlighted ? figures.pointer : ' '}
+		</Text>
 	</Box>
 );
 

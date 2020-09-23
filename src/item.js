@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Color} from 'ink';
+import {Text} from 'ink';
 
 const Item = ({isHighlighted, label}) => (
-	<Color blue={isHighlighted}>
+	<Text color={isHighlighted ? 'blue' : undefined}>
 		{label}
-	</Color>
+	</Text>
 );
 
 Item.propTypes = {

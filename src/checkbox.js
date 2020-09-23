@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box, Color} from 'ink';
+import {Box, Text} from 'ink';
 import figures from 'figures';
 
 const CheckBox = ({isSelected}) => (
 	<Box marginRight={1}>
-		<Color green>{isSelected ? figures.circleFilled : figures.circle}</Color>
+		<Text color="green">{isSelected ? figures.circleFilled : figures.circle}</Text>
 	</Box>
 );
 
