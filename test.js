@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Color} from 'ink';
+import {Box, Text} from 'ink';
 import {render} from 'ink-testing-library';
 import {spy} from 'sinon';
 import figures from 'figures';
@@ -13,7 +13,7 @@ const ENTER = '\r';
 test('indicator', t => {
 	const {lastFrame} = render((
 		<Box>
-			<Indicator/>X
+			<Indicator/><Text>X</Text>
 		</Box>
 	));
 
@@ -22,34 +22,35 @@ test('indicator', t => {
 
 test('indicator - highlighted', t => {
 	const actual = render(<Indicator isHighlighted/>);
-	const expected = render(<Color blue>{figures.pointer}</Color>);
+	const expected = render(<Text color="blue">{figures.pointer}</Text>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
 
 test('checkbox', t => {
 	const actual = render(<CheckBox/>);
-	const expected = render(<Color green>{figures.circle}</Color>);
+	const expected = render(<Text color="green">{figures.circle}</Text>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
 
 test('checkbox - selected', t => {
 	const actual = render(<CheckBox isSelected/>);
-	const expected = render(<Color green>{figures.circleFilled}</Color>);
+	const expected = render(<Text color="green">{figures.circleFilled}</Text>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
 
 test('item', t => {
 	const {lastFrame} = render(<Item label="Test"/>);
+	const expected = render(<Text>Test</Text>);
 
-	t.is(lastFrame(), 'Test');
+	t.is(lastFrame(), expected.lastFrame());
 });
 
 test('item - highlighted', t => {
 	const actual = render(<Item isHighlighted label="Test"/>);
-	const expected = render(<Color blue>Test</Color>);
+	const expected = render(<Text color="blue">Test</Text>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
@@ -120,7 +121,7 @@ test('list - custom indicator', t => {
 		value: 'test'
 	}];
 
-	const CustomIndicator = () => 'X ';
+	const CustomIndicator = () => <Text>X </Text>;
 
 	const actual = render(<MultiSelect items={items} indicatorComponent={CustomIndicator}/>);
 
@@ -143,7 +144,7 @@ test('list - custom item', t => {
 		value: 'test'
 	}];
 
-	const CustomItem = ({label}) => `- ${label}`;
+	const CustomItem = ({label}) => <Text>`- ${label}`</Text>;
 
 	const actual = render(<MultiSelect items={items} itemComponent={CustomItem}/>);
 

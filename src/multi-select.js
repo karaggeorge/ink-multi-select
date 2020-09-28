@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import arrRotate from 'arr-rotate';
-import {Box, StdinContext} from 'ink';
+import {Box, useStdin} from 'ink';
 import Indicator from './indicator';
 import Item from './item';
 import CheckBox from './checkbox';
@@ -204,16 +204,9 @@ class MultiSelect extends PureComponent {
 	}
 }
 
-export default class MultiSelectWithStdin extends PureComponent {
-	render() {
-		return (
-			<StdinContext.Consumer>
-				{({stdin, setRawMode}) => (
-					<MultiSelect {...this.props} stdin={stdin} setRawMode={setRawMode}/>
-				)}
-			</StdinContext.Consumer>
-		);
-	}
+export default props => {
+	const {stdin, setRawMode} = useStdin();
+	return <MultiSelect {...props} stdin={stdin} setRawMode={setRawMode}/>;
 }
 
 export {Indicator, Item, CheckBox};
