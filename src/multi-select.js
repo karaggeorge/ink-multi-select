@@ -71,7 +71,7 @@ class MultiSelect extends PureComponent {
 						<Box key={key}>
 							{React.createElement(indicatorComponent, {isHighlighted})}
 							{React.createElement(checkboxComponent, {isSelected})}
-							{React.createElement(itemComponent, {...item, isHighlighted})}
+							{React.createElement(itemComponent, {...item, isHighlighted, isSelected})}
 						</Box>
 					);
 				})}
