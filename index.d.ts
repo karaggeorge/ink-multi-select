@@ -3,7 +3,10 @@ import * as React from "react";
 /**
  * Props for custom indicator component.
  */
-export type IndicatorProps = { isHighlighted?: boolean };
+export type IndicatorProps = {
+	isHighlighted?: boolean;
+	isSelected?: boolean;
+};
 
 /**
  * Props for custom check box component.
