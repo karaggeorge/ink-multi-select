@@ -15,6 +15,7 @@ export type CheckBoxProps = { isSelected?: boolean };
  */
 export type ItemProps = {
 	isHighlighted?: boolean;
+	isSelected?: boolean;
 	label: string;
 };
 
