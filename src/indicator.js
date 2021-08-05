@@ -12,7 +12,7 @@ const Indicator = ({isSelected, isHighlighted}) => (
 );
 
 Indicator.propTypes = {
-	isHighlighted: PropTypes.bool
+	isHighlighted: PropTypes.bool,
 	isSelected: PropTypes.bool
 };
 
