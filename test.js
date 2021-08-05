@@ -55,6 +55,13 @@ test('item - highlighted', t => {
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
 
+test("item - selected", (t) => {
+	const actual = render(<Item isSelected label="Test" />);
+	const expected = render(<Text color="yellow">Test</Text>);
+
+	t.is(actual.lastFrame(), expected.lastFrame());
+});
+
 test('list', t => {
 	const items = [{
 		label: 'First',
