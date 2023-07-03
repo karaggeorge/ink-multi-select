@@ -1,80 +1,80 @@
 {
-	"name": "ink-multi-select",
-	"version": "2.0.0",
-	"description": "Multi select input component for Ink",
-	"license": "MIT",
-	"repository": "karaggeorge/ink-multi-select",
-	"author": {
-		"name": "George Karagkiaouris",
-		"email": "gkaragkiaouris2@gmail.com",
-		"url": "https://github.com/karaggeorge"
-	},
-	"main": "build/index.js",
-	"engines": {
-		"node": ">=8"
-	},
-	"scripts": {
-		"pretest": "npm run build",
-		"test": "xo && ava && npm run typecheck",
-		"build": "babel src --out-dir=build",
-		"prepare": "npm run build",
-		"typecheck": "tsc --noEmit --jsx react index.test-d.tsx"
-	},
-	"files": [
-		"build",
-		"index.d.ts"
-	],
-	"keywords": [
-		"ink",
-		"ink-component",
-		"select",
-		"multi-select",
-		"checkbox"
-	],
-	"dependencies": {
-		"arr-rotate": "^1.0.0",
-		"figures": "^5.0.0",
-		"lodash.isequal": "^4.5.0",
-		"prop-types": "^15.8.1"
-	},
-	"devDependencies": {
-		"@ava/babel": "^2.0.0",
-		"@ava/babel-preset-stage-4": "^4.0.0",
-		"@babel/cli": "^7.22.5",
-		"@babel/core": "^7.22.5",
-		"@babel/eslint-parser": "^7.22.5",
-		"@babel/plugin-proposal-class-properties": "^7.18.6",
-		"@babel/preset-react": "^7.22.5",
-		"@types/react": "^18.2.14",
-		"ava": "*",
-		"eslint-config-xo-react": "^0.27.0",
-		"eslint-plugin-react": "^7.32.2",
-		"ink": "^4.2.0",
-		"ink-testing-library": "^3.0.0",
-		"react": "^18.2.0",
-		"sinon": "^15.2.0",
-		"typescript": "^5.1.6",
-		"xo": "*"
-	},
-	"ava": {},
-	"babel": {
-		"plugins": [
-			"@babel/plugin-proposal-class-properties"
-		],
-		"presets": [
-			"@ava/stage-4",
-			"@babel/preset-react"
-		]
-	},
-	"xo": {
-		"parser": "@babel/eslint-parser",
-		"extends": [
-			"xo-react"
-		],
-		"rules": {
-			"react/no-unused-prop-types": 1,
-			"unicorn/no-hex-escape": 0,
-			"eslint-comments/no-unused-disable": 0
-		}
-	}
+  "name": "ink-multi-select",
+  "version": "2.0.1",
+  "description": "Multi select input component for Ink",
+  "license": "MIT",
+  "repository": "karaggeorge/ink-multi-select",
+  "author": {
+    "name": "George Karagkiaouris",
+    "email": "gkaragkiaouris2@gmail.com",
+    "url": "https://github.com/karaggeorge"
+  },
+  "main": "build/index.js",
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "pretest": "npm run build",
+    "test": "xo && ava && npm run typecheck",
+    "build": "babel src --out-dir=build",
+    "prepare": "npm run build",
+    "typecheck": "tsc --noEmit --jsx react index.test-d.tsx"
+  },
+  "files": [
+    "build",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "ink",
+    "ink-component",
+    "select",
+    "multi-select",
+    "checkbox"
+  ],
+  "dependencies": {
+    "arr-rotate": "^1.0.0",
+    "figures": "^5.0.0",
+    "lodash.isequal": "^4.5.0",
+    "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "@ava/babel": "^2.0.0",
+    "@ava/babel-preset-stage-4": "^4.0.0",
+    "@babel/cli": "^7.22.5",
+    "@babel/core": "^7.22.5",
+    "@babel/eslint-parser": "^7.22.5",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-react": "^7.22.5",
+    "@types/react": "^18.2.14",
+    "ava": "*",
+    "eslint-config-xo-react": "^0.27.0",
+    "eslint-plugin-react": "^7.32.2",
+    "ink": "^4.2.0",
+    "ink-testing-library": "^3.0.0",
+    "react": "^18.2.0",
+    "sinon": "^15.2.0",
+    "typescript": "^5.1.6",
+    "xo": "*"
+  },
+  "ava": {},
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ],
+    "presets": [
+      "@ava/stage-4",
+      "@babel/preset-react"
+    ]
+  },
+  "xo": {
+    "parser": "@babel/eslint-parser",
+    "extends": [
+      "xo-react"
+    ],
+    "rules": {
+      "react/no-unused-prop-types": 1,
+      "unicorn/no-hex-escape": 0,
+      "eslint-comments/no-unused-disable": 0
+    }
+  }
 }
