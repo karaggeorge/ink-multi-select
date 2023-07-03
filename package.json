@@ -33,32 +33,30 @@
 	],
 	"dependencies": {
 		"arr-rotate": "^1.0.0",
-		"figures": "^2.0.0",
+		"figures": "^5.0.0",
 		"lodash.isequal": "^4.5.0",
-		"prop-types": "^15.5.10"
+		"prop-types": "^15.8.1"
 	},
 	"devDependencies": {
-		"@ava/babel": "^1.0.0",
+		"@ava/babel": "^2.0.0",
 		"@ava/babel-preset-stage-4": "^4.0.0",
-		"@babel/cli": "^7.2.3",
-		"@babel/core": "^7.3.3",
-		"@babel/plugin-proposal-class-properties": "^7.3.3",
-		"@babel/preset-react": "^7.0.0",
-		"@types/react": "^16.8.8",
+		"@babel/cli": "^7.22.5",
+		"@babel/core": "^7.22.5",
+		"@babel/eslint-parser": "^7.22.5",
+		"@babel/plugin-proposal-class-properties": "^7.18.6",
+		"@babel/preset-react": "^7.22.5",
+		"@types/react": "^18.2.14",
 		"ava": "*",
-		"babel-eslint": "^10.0.1",
-		"eslint-config-xo-react": "^0.16.0",
-		"eslint-plugin-react": "^7.1.0",
-		"ink": "^3.0.0",
-		"ink-testing-library": "^2.0.1",
-		"react": "^16.8.2",
-		"sinon": "^7.2.7",
-		"typescript": "^3.3.3333",
+		"eslint-config-xo-react": "^0.27.0",
+		"eslint-plugin-react": "^7.32.2",
+		"ink": "^4.2.0",
+		"ink-testing-library": "^3.0.0",
+		"react": "^18.2.0",
+		"sinon": "^15.2.0",
+		"typescript": "^5.1.6",
 		"xo": "*"
 	},
-	"ava": {
-		"babel": true
-	},
+	"ava": {},
 	"babel": {
 		"plugins": [
 			"@babel/plugin-proposal-class-properties"
@@ -69,7 +67,7 @@
 		]
 	},
 	"xo": {
-		"parser": "babel-eslint",
+		"parser": "@babel/eslint-parser",
 		"extends": [
 			"xo-react"
 		],
