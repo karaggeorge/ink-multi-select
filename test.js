@@ -27,6 +27,13 @@ test('indicator - highlighted', t => {
 	t.is(actual.lastFrame(), expected.lastFrame());
 });
 
+test('indicator - selected', t => {
+	const actual = render(<Indicator isSelected/>);
+	const expected = render(<Text color="green">{figures.pointer}</Text>);
+
+	t.is(actual.lastFrame(), expected.lastFrame());
+});
+
 test('checkbox', t => {
 	const actual = render(<CheckBox/>);
 	const expected = render(<Text color="green">{figures.circle}</Text>);
@@ -51,6 +58,13 @@ test('item', t => {
 test('item - highlighted', t => {
 	const actual = render(<Item isHighlighted label="Test"/>);
 	const expected = render(<Text color="blue">Test</Text>);
+
+	t.is(actual.lastFrame(), expected.lastFrame());
+});
+
+test("item - selected", (t) => {
+	const actual = render(<Item isSelected label="Test" />);
+	const expected = render(<Text color="green">Test</Text>);
 
 	t.is(actual.lastFrame(), expected.lastFrame());
 });

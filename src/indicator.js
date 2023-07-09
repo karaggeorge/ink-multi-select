@@ -3,20 +3,22 @@ import PropTypes from 'prop-types';
 import {Box, Text} from 'ink';
 import figures from 'figures';
 
-const Indicator = ({isHighlighted}) => (
+const Indicator = ({isSelected, isHighlighted}) => (
 	<Box marginRight={1}>
-		<Text color={isHighlighted ? 'blue' : undefined}>
+		<Text color={isSelected ? 'green' : isHighlighted ? 'blue' : undefined}>
 			{isHighlighted ? figures.pointer : ' '}
 		</Text>
 	</Box>
 );
 
 Indicator.propTypes = {
-	isHighlighted: PropTypes.bool
+	isHighlighted: PropTypes.bool,
+	isSelected: PropTypes.bool
 };
 
 Indicator.defaultProps = {
-	isHighlighted: false
+	isHighlighted: false,
+	isSelected: false
 };
 
 export default Indicator;
